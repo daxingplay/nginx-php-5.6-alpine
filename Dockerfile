@@ -19,6 +19,7 @@ RUN export NGX_VER="1.9.3" && \
     php-posix php-curl php-dom php-pdo php-pdo_mysql php-sockets php-zlib php-mcrypt php-mysqli php-bz2 php-pear \
     php-phar php-openssl php-posix phpredis@testing php-zip php-calendar php-iconv php-imap tar gzip pcre perl curl nmap-ncat && \
     wget -qO- https://github.com/walter-cd/walter/releases/download/v${WALTER_VER}/walter_${WALTER_VER}_linux_amd64.tar.gz | tar xz -C /tmp/ && \
+    mkdir /opt/wodby/bin && \
     cp /tmp/walter_linux_amd64/walter /opt/wodby/bin && \
     apk add --update build-base php-dev php-pear autoconf imagemagick-dev libtool pcre-dev && \
     sed -ie 's/-n//g' `which pecl` && \

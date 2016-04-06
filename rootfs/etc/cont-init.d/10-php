@@ -7,3 +7,7 @@ if [ "${WODBY_ENVIRONMENT_TYPE}" = "dev" ]; then
     sed -i "s/^track_errors.*/track_errors = On/" /etc/php/php.ini
     sed -i "s/^mysqlnd.collect_memory_statistics.*/mysqlnd.collect_memory_statistics = On/" /etc/php/php.ini
 fi
+
+echo -e "\n;;;;;;;;;;;;;;;;;;;;;;;;;\n; Environment variables ;\n;;;;;;;;;;;;;;;;;;;;;;;;;\n" >> /etc/php/php-fpm.conf && \
+    printenv | xargs -I{} echo {} | awk 'BEGIN { FS = "=" }; { print "env["$1"] = "$2 }' >> /etc/php/php-fpm.conf && \
+    echo -e "\n"

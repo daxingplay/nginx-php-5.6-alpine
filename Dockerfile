@@ -113,6 +113,9 @@ RUN export NGX_VER="1.9.5" && \
     # Cleanup after phpizing
     cd / && rm -rf /usr/include/php /usr/lib/php/build /usr/lib/php/20090626/*.a && \
 
+    # Remove redis binaries and config
+    rm -f /usr/bin/redis-* && /etc/redis.conf && \
+
     # Replace sendmail by msmtp
     ln -sf /usr/bin/msmtp /usr/sbin/sendmail && \
 

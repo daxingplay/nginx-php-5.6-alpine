@@ -45,6 +45,7 @@ RUN export NGX_VER="1.9.5" && \
 
     # Install PHP extensions
     apk add --update \
+        php \
         php-cli \
         php-fpm \
         php-opcache \
@@ -67,14 +68,14 @@ RUN export NGX_VER="1.9.5" && \
         php-phar \
         php-openssl \
         php-posix \
-        php-redis \
+        php-redis@testing \
         php-zip \
         php-calendar \
         php-iconv \
         php-imap \
         php-memcache \
-        php-xdebug \
-        php-imagick \
+        php-xdebug@testing \
+        php-imagick@testing \
         && \
 
     # Configure php.ini
@@ -94,14 +95,17 @@ RUN export NGX_VER="1.9.5" && \
     touch /var/log/php/fpm-slow.log && \
     chown -R wodby:wodby /var/log/php && \
 
-    # Install PHP extensions through Pecl
-    pecl install uploadprogress && \
-
     # Install Twig template engine
     apk add --update build-base php-dev php-pear autoconf libtool pcre-dev && \
     wget -qO- https://github.com/twigphp/Twig/archive/v${TWIG_VER}.tar.gz | tar xz -C /tmp/ && \
     cd /tmp/Twig-${TWIG_VER}/ext/twig && \
     phpize && ./configure && make && make install && \
+    echo 'extension=twig.so' > /etc/php/conf.d/twig.ini && \
+
+    # Install PHP extensions through Pecl
+    sed -ie 's/-n//g' `which pecl` && \
+    pecl install uploadprogress && \
+    echo 'extension=uploadprogress.so' > /etc/php/conf.d/uploadprogress.ini && \
 
     # Purge dev APK packages
     apk del --purge *-dev build-base autoconf libtool && \

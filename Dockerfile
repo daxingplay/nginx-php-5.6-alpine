@@ -59,12 +59,12 @@ RUN export TWIG_VER="1.24.0" && \
         php-phar \
         php-openssl \
         php-posix \
-        php-redis@testing \
         php-zip \
         php-calendar \
         php-iconv \
         php-imap \
         php-memcache \
+        php-redis@testing \
         php-xdebug@testing \
         php-imagick@testing \
         && \
@@ -87,7 +87,14 @@ RUN export TWIG_VER="1.24.0" && \
     chown -R wodby:wodby /var/log/php && \
 
     # Install Twig template engine
-    apk add --update build-base php-dev php-pear autoconf libtool pcre-dev && \
+    apk add --update \
+        php-dev \
+        pcre-dev \
+        build-base \
+        autoconf \
+        libtool \
+        && \
+
     wget -qO- https://github.com/twigphp/Twig/archive/v${TWIG_VER}.tar.gz | tar xz -C /tmp/ && \
     cd /tmp/Twig-${TWIG_VER}/ext/twig && \
     phpize && ./configure && make && make install && \
@@ -99,7 +106,12 @@ RUN export TWIG_VER="1.24.0" && \
     echo 'extension=uploadprogress.so' > /etc/php/conf.d/uploadprogress.ini && \
 
     # Purge dev APK packages
-    apk del --purge *-dev build-base autoconf libtool && \
+    apk del --purge \
+        *-dev \
+        build-base \
+        autoconf \
+        libtool \
+        && \
 
     # Cleanup after phpizing
     cd / && rm -rf /usr/include/php /usr/lib/php/build /usr/lib/php/20090626/*.a && \

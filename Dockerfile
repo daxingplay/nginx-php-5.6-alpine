@@ -3,7 +3,7 @@ MAINTAINER Wodby <hello@wodby.com>
 
 RUN export TWIG_VER="1.24.0" && \
     export WALTER_VER="1.3.0" && \
-    export GO_AWS_S3_VER="0.1.0" && \
+    export GO_AWS_S3_VER="0.2.0" && \
 
     echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
 

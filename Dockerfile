@@ -3,6 +3,7 @@ MAINTAINER Wodby <hello@wodby.com>
 
 RUN export TWIG_VER="1.24.0" && \
     export WALTER_VER="1.3.0" && \
+    export GO_AWS_S3_VER="0.1.0" && \
 
     echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
 
@@ -147,6 +148,10 @@ RUN export TWIG_VER="1.24.0" && \
     wget -qO- https://github.com/walter-cd/walter/releases/download/v${WALTER_VER}/walter_${WALTER_VER}_linux_amd64.tar.gz | tar xz -C /tmp/ && \
     mkdir /opt/wodby/bin && \
     cp /tmp/walter_linux_amd64/walter /opt/wodby/bin && \
+
+    # Install go-aws-s3
+    wget -qO- https://github.com/csandanov/go-aws-s3/releases/download/v${GO_AWS_S3_VER}/go-aws-s3.tar.gz | tar xz -C /tmp/ && \
+    cp /tmp/go-aws-s3 /opt/wodby/bin && \
 
     # Fix permissions
     chmod 755 /root && \

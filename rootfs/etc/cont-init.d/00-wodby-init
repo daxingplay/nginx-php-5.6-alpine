@@ -1,55 +1,61 @@
 #!/usr/bin/with-contenv sh
 
-if [ -f $WODBY_HOME/.profile ] && grep -ic "container_environments" $WODBY_HOME/.profile; then
- rm $WODBY_HOME/.profile
+# Delete old stile .profile
+if [ -f $WODBY_HOME/.profile ] && [ $( grep -ic "container_environments" $WODBY_HOME/.profile ) ]; then
+    rm $WODBY_HOME/.profile
 fi
 
-mkdir /var/run/wodby
+# Delete useless repo dir
+if [ ! -d $WODBY_HOME/repo ]; then
+    rm -rf $WODBY_HOME/repo
+fi
+
+# Put env vars into /var/run/wodby/env
+if [ ! -d /var/run/wodby ]; then
+    mkdir -p /var/run/wodby
+fi
 printenv | xargs -I{} echo {} | awk 'BEGIN { FS = "=" }; { if ($1 != "HOME") { print "export "$1"="$2 } }' > /var/run/wodby/env
 chmod +x /var/run/wodby/env
 
+# Ensure needed dirs and files are exists
 if [ ! -d $WODBY_HOME ]; then
     mkdir -p $WODBY_HOME
-    chown $WODBY_USER:$WODBY_GROUP $WODBY_HOME
 fi
 
 if [ ! -d $WODBY_HOME/.ssh ]; then
     mkdir -p $WODBY_HOME/.ssh
-    chown $WODBY_USER:$WODBY_GROUP $WODBY_HOME/.ssh
-    chmod 700 $WODBY_HOME/.ssh
 fi
 
 if [ ! -f $WODBY_HOME/.profile ]; then
     echo -e 'alias ls="ls --color"' >> $WODBY_HOME/.profile
     echo -e 'alias ll="ls -lah --color"' >> $WODBY_HOME/.profile
     echo -e '. /var/run/wodby/env' >> $WODBY_HOME/.profile
-    chown $WODBY_USER:$WODBY_GROUP $WODBY_HOME/.profile
 fi
 
 if [ ! -d $WODBY_CONF ]; then
     mkdir -p $WODBY_CONF
-    chown -R $WODBY_USER:$WODBY_GROUP $WODBY_CONF
 fi
 
 if [ ! -d $WODBY_LOGS ]; then
     mkdir -p $WODBY_LOGS
-    chown -R $WODBY_USER:$WODBY_GROUP $WODBY_LOGS
 fi
 
 if [ ! -d $WODBY_FILES ]; then
     mkdir $WODBY_FILES
     mkdir $WODBY_FILES/public
     mkdir $WODBY_FILES/private
-    chown -R $WODBY_USER:$WODBY_GROUP $WODBY_FILES
-    chmod -R 750 $WODBY_FILES
-    chmod -R 700 $WODBY_FILES/private
 fi
 
 if [ ! -d $WODBY_BACKUPS ]; then
     mkdir -p $WODBY_BACKUPS
-    chown -R $WODBY_USER:$WODBY_GROUP $WODBY_BACKUPS
 fi
 
 if [ ! -d $WODBY_HOME/.wodby/locks ]; then
     mkdir -p $WODBY_HOME/.wodby/locks
 fi
+
+# Fix permissions
+chown -R $WODBY_USER:$WODBY_GROUP $WODBY_HOME
+chmod -R 644 $WODBY_HOME
+find $WODBY_HOME -type d -print0 | xargs -0 chmod +x
+chmod 700 $WODBY_HOME/.ssh

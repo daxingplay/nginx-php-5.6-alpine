@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/bin/sh
 
 # Delete old stile .profile
 if [ -f $WODBY_HOME/.profile ] && [ $( grep -ic "container_environments" $WODBY_HOME/.profile ) ]; then
@@ -20,42 +20,52 @@ chmod +x /var/run/wodby/env
 # Ensure needed dirs and files are exists
 if [ ! -d $WODBY_HOME ]; then
     mkdir -p $WODBY_HOME
+    chown $WODBY_USER:$WODBY_GROUP $WODBY_HOME
 fi
 
 if [ ! -d $WODBY_HOME/.ssh ]; then
     mkdir -p $WODBY_HOME/.ssh
+    chmod -R 700 $WODBY_HOME/.ssh
 fi
 
 if [ ! -f $WODBY_HOME/.profile ]; then
     echo -e 'alias ls="ls --color"' >> $WODBY_HOME/.profile
     echo -e 'alias ll="ls -lah --color"' >> $WODBY_HOME/.profile
     echo -e '. /var/run/wodby/env' >> $WODBY_HOME/.profile
+    chown -R $WODBY_USER:$WODBY_GROUP $WODBY_HOME/.profile
 fi
 
 if [ ! -d $WODBY_CONF ]; then
     mkdir -p $WODBY_CONF
+    chown -R $WODBY_USER:$WODBY_GROUP $WODBY_CONF
 fi
 
 if [ ! -d $WODBY_LOGS ]; then
     mkdir -p $WODBY_LOGS
+    chown -R $WODBY_USER:$WODBY_GROUP $WODBY_LOGS
 fi
 
 if [ ! -d $WODBY_FILES ]; then
     mkdir $WODBY_FILES
     mkdir $WODBY_FILES/public
     mkdir $WODBY_FILES/private
+    chown -R $WODBY_USER:$WODBY_GROUP $WODBY_FILES
 fi
 
 if [ ! -d $WODBY_BACKUPS ]; then
     mkdir -p $WODBY_BACKUPS
+    chown -R $WODBY_USER:$WODBY_GROUP $WODBY_BACKUPS
 fi
 
 if [ ! -d $WODBY_HOME/.wodby/locks ]; then
     mkdir -p $WODBY_HOME/.wodby/locks
+    chown -R $WODBY_USER:$WODBY_GROUP $WODBY_HOME/.wodby
 fi
 
-# Fix permissions
-chown -R $WODBY_USER:$WODBY_GROUP $WODBY_HOME
-chmod -R 644 $WODBY_HOME
-find $WODBY_HOME -type d -print0 | xargs -0 chmod +x
-chmod 700 $WODBY_HOME/.ssh
+# Replace env vars in confd templates
+sed -i -e 's@${WODBY_NAMESPACE}@'"${WODBY_NAMESPACE}"'@' /etc/confd/conf.d/*.toml
+sed -i -e 's@${WODBY_USER}@'"${WODBY_USER}"'@' /etc/confd/conf.d/*.toml
+sed -i -e 's@${WODBY_GUID}@'"${WODBY_GUID}"'@' /etc/confd/conf.d/*.toml
+sed -i -e 's@${WODBY_CONF}@'"${WODBY_CONF}"'@' /etc/confd/conf.d/*.toml
+sed -i -e 's@${WODBY_APP_TYPE}@'"${WODBY_APP_TYPE}"'@' /etc/confd/conf.d/*.toml
+sed -i -e 's@${WODBY_APP_VERSION}@'"${WODBY_APP_VERSION}"'@' /etc/confd/conf.d/*.toml

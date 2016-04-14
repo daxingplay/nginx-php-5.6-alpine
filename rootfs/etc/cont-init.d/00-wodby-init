@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/with-contenv sh
 
 # Delete old stile .profile
 if [ -f $WODBY_HOME/.profile ] && [ $( grep -ic "container_environments" $WODBY_HOME/.profile ) ]; then
@@ -14,7 +14,7 @@ fi
 if [ ! -d /var/run/wodby ]; then
     mkdir -p /var/run/wodby
 fi
-printenv | xargs -I{} echo {} | awk 'BEGIN { FS = "=" }; { if ($1 != "HOME") { print "export "$1"="$2 } }' > /var/run/wodby/env
+printenv | xargs -I{} echo {} | awk 'BEGIN { FS = "=" }; { if ($1 != "HOME") { print "export "$1"="$2"" } }' > /var/run/wodby/env
 chmod +x /var/run/wodby/env
 
 # Ensure needed dirs and files are exists

@@ -21,7 +21,6 @@ RUN export NGX_VER="1.9.3" && \
         busybox-suid \
         pwgen \
         && \
-    rm -f /etc/cont-init.d/* \ &&
 
     apk add --update git sed nmap pwgen openssh rsync msmtp patch patchutils inotify-tools mariadb-client wget grep \
     redis nano bash diffutils imagemagick php-cli php-fpm php-opcache php-xml php-ctype php-ftp php-gd php-json \

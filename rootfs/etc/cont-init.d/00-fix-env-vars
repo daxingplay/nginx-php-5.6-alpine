@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-if [ -f $WODBY_HOME/.profile ]; then
-    if [ $( grep -ic "container_environments" $WODBY_HOME/.profile ) ]; then
-        rm $WODBY_HOME/.profile
-    fi
+if [ -f $WODBY_HOME/.profile ] && grep -ic "container_environments" $WODBY_HOME/.profile; then
+ rm $WODBY_HOME/.profile
 fi

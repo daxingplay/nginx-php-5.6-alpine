@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-if [ "${WODBY_ENVIRONMENT_TYPE}" = "dev" ]; then
+if [ $WODBY_ENVIRONMENT_TYPE = "dev" ]; then
     sed -i "s/^error_reporting.*/error_reporting = E_ALL/" /etc/php/php.ini
     sed -i "s/^display_errors.*/display_errors = On/" /etc/php/php.ini
     sed -i "s/^display_startup_errors.*/display_startup_errors = On/" /etc/php/php.ini

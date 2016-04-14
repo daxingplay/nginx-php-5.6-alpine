@@ -1,0 +1,8 @@
+#!/usr/bin/with-contenv sh
+
+sed -i -e 's@${WODBY_NAMESPACE}@'"${WODBY_NAMESPACE}"'@' /etc/confd/conf.d/*.toml && \
+sed -i -e 's@${WODBY_USER}@'"${WODBY_USER}"'@' /etc/confd/conf.d/*.toml && \
+sed -i -e 's@${WODBY_GUID}@'"${WODBY_GUID}"'@' /etc/confd/conf.d/*.toml && \
+sed -i -e 's@${WODBY_CONF}@'"${WODBY_CONF}"'@' /etc/confd/conf.d/*.toml && \
+sed -i -e 's@${WODBY_APP_TYPE}@'"${WODBY_APP_TYPE}"'@' /etc/confd/conf.d/*.toml && \
+sed -i -e 's@${WODBY_APP_VERSION}@'"${WODBY_APP_VERSION}"'@' /etc/confd/conf.d/*.toml

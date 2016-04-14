@@ -14,6 +14,14 @@ RUN export NGX_VER="1.9.3" && \
     export WALTER_VER="1.3.0" && \
 
     echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
+
+    # Quick fix.
+    apk add --update \
+        nmap-ncat \
+        busybox-suid \
+        pwgen \
+        && \
+
     apk add --update git sed nmap pwgen openssh rsync msmtp patch patchutils inotify-tools mariadb-client wget grep \
     redis nano bash diffutils imagemagick php-cli php-fpm php-opcache php-xml php-ctype php-ftp php-gd php-json \
     php-posix php-curl php-dom php-pdo php-pdo_mysql php-sockets php-zlib php-mcrypt php-mysqli php-bz2 php-pear \

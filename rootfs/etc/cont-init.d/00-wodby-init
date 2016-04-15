@@ -20,6 +20,7 @@ chmod +x /var/run/wodby/env
 
 # Ensure needed dirs, files, permissions
 chown $WODBY_USER:$WODBY_GROUP $WODBY_HOME
+chown -R $WODBY_USER:$WODBY_GROUP $WODBY_HOME/.ssh
 chmod 700 $WODBY_HOME/.ssh
 
 if [ ! -f $WODBY_HOME/.profile ]; then

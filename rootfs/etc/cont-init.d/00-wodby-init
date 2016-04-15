@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-# Delete old stile .profile
+# Delete old style .profile
 if [ -f $WODBY_HOME/.profile ] && [ $( grep -ic "container_environments" $WODBY_HOME/.profile ) ]; then
     rm $WODBY_HOME/.profile
 fi
@@ -20,11 +20,7 @@ chmod +x /var/run/wodby/env
 
 # Ensure needed dirs, files, permissions
 chown $WODBY_USER:$WODBY_GROUP $WODBY_HOME
-
-if [ ! -d $WODBY_HOME/.ssh ]; then
-    mkdir $WODBY_HOME/.ssh
-    chmod 700 $WODBY_HOME/.ssh
-fi
+chmod 700 $WODBY_HOME/.ssh
 
 if [ ! -f $WODBY_HOME/.profile ]; then
     echo -e 'alias ls="ls --color"' >> $WODBY_HOME/.profile
@@ -50,8 +46,8 @@ if [ ! -d $WODBY_FILES ]; then
     chown -R $WODBY_USER:$WODBY_GROUP $WODBY_FILES
 fi
 
-if [ ! -d $WODBY_BACKUPS ]; then
-    mkdir $WODBY_BACKUPS
+# Do not create backup directory, because it mounted from the host machine
+if [ -d $WODBY_BACKUPS ]; then
     chown $WODBY_USER:$WODBY_GROUP $WODBY_BACKUPS
 fi
 

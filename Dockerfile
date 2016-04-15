@@ -1,4 +1,4 @@
-FROM wodby/php-actions-alpine:v1.0.9
+FROM wodby/php-actions-alpine:hotfix
 MAINTAINER Wodby <hello@wodby.com>
 
 RUN export NGX_VER="1.9.3" && \

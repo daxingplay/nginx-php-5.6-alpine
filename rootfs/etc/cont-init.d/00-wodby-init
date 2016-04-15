@@ -18,32 +18,29 @@ printenv | xargs -I{} echo {} | awk 'BEGIN { FS = "=" }; { if ($1 != "HOME") { p
 chown $WODBY_USER:$WODBY_GROUP /var/run/wodby/env
 chmod +x /var/run/wodby/env
 
-# Ensure needed dirs and files are exists
-if [ ! -d $WODBY_HOME ]; then
-    mkdir -p $WODBY_HOME
-    chown $WODBY_USER:$WODBY_GROUP $WODBY_HOME
-fi
+# Ensure needed dirs, files, permissions
+chown $WODBY_USER:$WODBY_GROUP $WODBY_HOME
 
 if [ ! -d $WODBY_HOME/.ssh ]; then
-    mkdir -p $WODBY_HOME/.ssh
-    chmod -R 700 $WODBY_HOME/.ssh
+    mkdir $WODBY_HOME/.ssh
+    chmod 700 $WODBY_HOME/.ssh
 fi
 
 if [ ! -f $WODBY_HOME/.profile ]; then
     echo -e 'alias ls="ls --color"' >> $WODBY_HOME/.profile
     echo -e 'alias ll="ls -lah --color"' >> $WODBY_HOME/.profile
     echo -e '. /var/run/wodby/env' >> $WODBY_HOME/.profile
-    chown -R $WODBY_USER:$WODBY_GROUP $WODBY_HOME/.profile
+    chown $WODBY_USER:$WODBY_GROUP $WODBY_HOME/.profile
 fi
 
 if [ ! -d $WODBY_CONF ]; then
-    mkdir -p $WODBY_CONF
-    chown -R $WODBY_USER:$WODBY_GROUP $WODBY_CONF
+    mkdir $WODBY_CONF
+    chown $WODBY_USER:$WODBY_GROUP $WODBY_CONF
 fi
 
 if [ ! -d $WODBY_LOGS ]; then
-    mkdir -p $WODBY_LOGS
-    chown -R $WODBY_USER:$WODBY_GROUP $WODBY_LOGS
+    mkdir $WODBY_LOGS
+    chown $WODBY_USER:$WODBY_GROUP $WODBY_LOGS
 fi
 
 if [ ! -d $WODBY_FILES ]; then
@@ -54,8 +51,8 @@ if [ ! -d $WODBY_FILES ]; then
 fi
 
 if [ ! -d $WODBY_BACKUPS ]; then
-    mkdir -p $WODBY_BACKUPS
-    chown -R $WODBY_USER:$WODBY_GROUP $WODBY_BACKUPS
+    mkdir $WODBY_BACKUPS
+    chown $WODBY_USER:$WODBY_GROUP $WODBY_BACKUPS
 fi
 
 if [ ! -d $WODBY_HOME/.wodby/locks ]; then

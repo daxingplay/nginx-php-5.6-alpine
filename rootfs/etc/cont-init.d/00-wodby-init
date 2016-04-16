@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 # Delete useless repo dir
-if [ ! -d $WODBY_HOME/repo ]; then
+if [ -d $WODBY_HOME/repo ]; then
     rm -rf $WODBY_HOME/repo
 fi
 
@@ -37,21 +37,21 @@ if [ ! -d $WODBY_CONF ]; then
 fi
 
 # Delete old style .profile
-if [ -f $WODBY_HOME/.profile ] && [ $( grep -ic "/var/run/wodby/env-profile" $WODBY_HOME/.profile ) -eq 0 ]; then
+if [ -f $WODBY_HOME/.profile ] && [ $( grep -ic "/var/run/wodby/profile-env" $WODBY_HOME/.profile ) -eq 0 ]; then
     rm $WODBY_HOME/.profile
 fi
 
 # Create .profile
 if [ ! -f $WODBY_HOME/.profile ]; then
     # Generate env vars for sh profile
-    cat /var/run/wodby/env | xargs -I{} echo {} | awk 'BEGIN { FS = "=" }; { print "export "$1"="$2"" }' > /var/run/wodby/env-profile
-    chown $WODBY_USER:$WODBY_GROUP /var/run/wodby/env-profile
-    chmod +x /var/run/wodby/env-profile
+    cat /var/run/wodby/env | xargs -I{} echo {} | awk 'BEGIN { FS = "=" }; { print "export "$1"="$2"" }' > /var/run/wodby/profile-env
+    chown $WODBY_USER:$WODBY_GROUP /var/run/wodby/profile-env
+    chmod +x /var/run/wodby/profile-env
 
     # Generate .profile
     echo -e 'alias ls="ls --color"' >> $WODBY_HOME/.profile
     echo -e 'alias ll="ls -lah --color"' >> $WODBY_HOME/.profile
-    echo -e '. /var/run/wodby/env-profile' >> $WODBY_HOME/.profile
+    echo -e '. /var/run/wodby/profile-env' >> $WODBY_HOME/.profile
     chown $WODBY_USER:$WODBY_GROUP $WODBY_HOME/.profile
 fi
 

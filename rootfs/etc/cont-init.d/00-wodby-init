@@ -36,6 +36,11 @@ if [ ! -d $WODBY_CONF ]; then
     chmod 700 $WODBY_HOME/.ssh
 fi
 
+# Generate env vars for sh profile
+cat /var/run/wodby/env | xargs -I{} echo {} | awk 'BEGIN { FS = "=" }; { print "export "$1"="$2"" }' > /var/run/wodby/profile-env
+chown $WODBY_USER:$WODBY_GROUP /var/run/wodby/profile-env
+chmod +x /var/run/wodby/profile-env
+
 # Delete old style .profile
 if [ -f $WODBY_HOME/.profile ] && [ $( grep -ic "/var/run/wodby/profile-env" $WODBY_HOME/.profile ) -eq 0 ]; then
     rm $WODBY_HOME/.profile
@@ -43,11 +48,6 @@ fi
 
 # Create .profile
 if [ ! -f $WODBY_HOME/.profile ]; then
-    # Generate env vars for sh profile
-    cat /var/run/wodby/env | xargs -I{} echo {} | awk 'BEGIN { FS = "=" }; { print "export "$1"="$2"" }' > /var/run/wodby/profile-env
-    chown $WODBY_USER:$WODBY_GROUP /var/run/wodby/profile-env
-    chmod +x /var/run/wodby/profile-env
-
     # Generate .profile
     echo -e 'alias ls="ls --color"' >> $WODBY_HOME/.profile
     echo -e 'alias ll="ls -lah --color"' >> $WODBY_HOME/.profile

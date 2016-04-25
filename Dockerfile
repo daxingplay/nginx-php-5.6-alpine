@@ -1,4 +1,4 @@
-FROM wodby/php-actions-alpine:v1.0.10
+FROM wodby/php-actions-alpine:v1.0.14
 MAINTAINER Wodby <hello@wodby.com>
 
 RUN export NGX_VER="1.9.3" && \

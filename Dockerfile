@@ -12,6 +12,7 @@ RUN export NGX_VER="1.9.3" && \
     export TWIG_VER="1.21.1" && \
     export WCLI_VER="0.1" && \
     export WALTER_VER="1.3.0" && \
+    export GO_AWS_S3_VER="v1.0.0" && \
 
     echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
 
@@ -49,6 +50,10 @@ RUN export NGX_VER="1.9.3" && \
     ln -sf /usr/local/src/wp-cli/bin/wp /usr/bin/wp && \
     git config --global user.name "Administrator" && git config --global user.email "admin@wodby.com" && git config --global push.default current && \
     chmod 755 /root && \
+
+    # Install go-aws-s3
+    wget -qO- https://s3.amazonaws.com/wodby-releases/go-aws-s3/${GO_AWS_S3_VER}/go-aws-s3.tar.gz | tar xz -C /tmp/ && \
+    cp /tmp/go-aws-s3 /opt/wodby/bin && \
 
     # Configure php.ini
     sed -i "s/^expose_php.*/expose_php = Off/" /etc/php/php.ini && \

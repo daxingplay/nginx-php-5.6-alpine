@@ -26,7 +26,7 @@ RUN export NGX_VER="1.9.3" && \
     apk add --update git sed nmap pwgen openssh rsync msmtp patch patchutils inotify-tools mariadb-client wget grep \
     redis nano bash diffutils imagemagick php-cli php-fpm php-opcache php-xml php-ctype php-ftp php-gd php-json \
     php-posix php-curl php-dom php-pdo php-pdo_mysql php-sockets php-zlib php-mcrypt php-mysqli php-bz2 php-pear \
-    php-phar php-openssl php-posix phpredis@testing php-zip php-calendar php-iconv php-imap tar gzip pcre perl curl nmap-ncat && \
+    php-phar php-openssl php-posix php-soap phpredis@testing php-zip php-calendar php-iconv php-imap tar gzip pcre perl curl nmap-ncat && \
     wget -qO- https://github.com/walter-cd/walter/releases/download/v${WALTER_VER}/walter_${WALTER_VER}_linux_amd64.tar.gz | tar xz -C /tmp/ && \
     mkdir /opt/wodby/bin && \
     cp /tmp/walter_linux_amd64/walter /opt/wodby/bin && \

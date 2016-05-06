@@ -1,9 +1,16 @@
-FROM wodby/php-actions-alpine:dev
+FROM wodby/nginx-alpine:v1.0.4
 MAINTAINER Wodby <hello@wodby.com>
 
-RUN export TWIG_VER="1.24.0" && \
+RUN export PHP_ACTIONS_VER="develop" && \
+    export TWIG_VER="1.24.0" && \
     export WALTER_VER="1.3.0" && \
     export GO_AWS_S3_VER="v1.0.0" && \
+
+    # Add PHP actions
+    git clone https://github.com/Wodby/php-actions-alpine.git /tmp/php-actions && \
+    cd /tmp/php-action && \
+    git checkout $PHP_ACTIONS_VER && \
+    rsync -avi ./rootfs/ / && \
 
     echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
 

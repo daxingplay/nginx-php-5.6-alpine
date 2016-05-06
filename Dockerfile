@@ -28,6 +28,13 @@ RUN export PHP_ACTIONS_VER="develop" && \
         inotify-tools \
         && \
 
+    # Add PHP actions
+    cd /tmp && \
+    git clone https://github.com/Wodby/php-actions-alpine.git && \
+    cd php-actions-alpine && \
+    git checkout $PHP_ACTIONS_VER && \
+    rsync -av rootfs/ / && \
+
     # Install PHP specific packages
     apk add --update \
         mariadb-client \
@@ -155,13 +162,6 @@ RUN export PHP_ACTIONS_VER="develop" && \
     # Install go-aws-s3
     wget -qO- https://s3.amazonaws.com/wodby-releases/go-aws-s3/${GO_AWS_S3_VER}/go-aws-s3.tar.gz | tar xz -C /tmp/ && \
     cp /tmp/go-aws-s3 /opt/wodby/bin && \
-
-    # Add PHP actions
-    cd /tmp && \
-    git clone https://github.com/Wodby/php-actions-alpine.git && \
-    cd php-actions-alpine && \
-    git checkout $PHP_ACTIONS_VER && \
-    rsync -av rootfs/ / && \
 
     # Fix permissions
     chmod 755 /root && \

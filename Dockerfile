@@ -62,6 +62,7 @@ RUN export PHP_ACTIONS_VER="develop" && \
         php-sockets \
         php-zlib \
         php-mcrypt \
+        php-pcntl \
         php-mysqli \
         php-bz2 \
         php-pear \

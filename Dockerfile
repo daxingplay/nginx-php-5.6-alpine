@@ -6,13 +6,6 @@ RUN export PHP_ACTIONS_VER="develop" && \
     export WALTER_VER="1.3.0" && \
     export GO_AWS_S3_VER="v1.0.0" && \
 
-    # Add PHP actions
-    cd /tmp && \
-    git clone https://github.com/Wodby/php-actions-alpine.git && \
-    cd php-actions-alpine && \
-    git checkout $PHP_ACTIONS_VER && \
-    rsync -av rootfs/ / && \
-
     echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
 
     # Install common packages
@@ -162,6 +155,13 @@ RUN export PHP_ACTIONS_VER="develop" && \
     # Install go-aws-s3
     wget -qO- https://s3.amazonaws.com/wodby-releases/go-aws-s3/${GO_AWS_S3_VER}/go-aws-s3.tar.gz | tar xz -C /tmp/ && \
     cp /tmp/go-aws-s3 /opt/wodby/bin && \
+
+    # Add PHP actions
+    cd /tmp && \
+    git clone https://github.com/Wodby/php-actions-alpine.git && \
+    cd php-actions-alpine && \
+    git checkout $PHP_ACTIONS_VER && \
+    rsync -av rootfs/ / && \
 
     # Fix permissions
     chmod 755 /root && \

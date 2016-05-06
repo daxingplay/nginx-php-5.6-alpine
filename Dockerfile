@@ -112,7 +112,8 @@ RUN export PHP_ACTIONS_VER="develop" && \
     # Install PHP extensions through Pecl
     sed -ie 's/-n//g' /usr/bin/pecl && \
     echo '\n' | pecl install uploadprogress && \
-    pecl install imagick && \
+    apk --update add imagemagick-dev && \
+    echo '\n' | pecl install imagick && \
     echo 'extension=imagick.so' > /etc/php/conf.d/imagick.ini && \
     echo 'extension=uploadprogress.so' > /etc/php/conf.d/uploadprogress.ini && \
 
@@ -125,7 +126,7 @@ RUN export PHP_ACTIONS_VER="develop" && \
         && \
 
     # Cleanup after phpizing
-    cd / && rm -rf /usr/include/php /usr/lib/php/build /usr/lib/php/20090626/*.a && \
+    cd / && rm -rf /usr/include/php /usr/lib/php/build /usr/lib/php/modules/*.a && \
 
     # Remove Redis binaries and config
     rm -f \

@@ -7,10 +7,11 @@ RUN export PHP_ACTIONS_VER="develop" && \
     export GO_AWS_S3_VER="v1.0.0" && \
 
     # Add PHP actions
-    git clone https://github.com/Wodby/php-actions-alpine.git /tmp/php-actions && \
-    cd /tmp/php-action && \
+    cd /tmp && \
+    git clone https://github.com/Wodby/php-actions-alpine.git && \
+    cd php-actions-alpine && \
     git checkout $PHP_ACTIONS_VER && \
-    rsync -avi ./rootfs/ / && \
+    rsync -av rootfs/ / && \
 
     echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
 

@@ -67,7 +67,6 @@ RUN export TWIG_VER="1.24.0" && \
         php-memcache \
         php-redis@testing \
         php-xdebug@testing \
-        php-imagick@testing \
         && \
 
     # Configure php.ini
@@ -104,6 +103,8 @@ RUN export TWIG_VER="1.24.0" && \
     # Install PHP extensions through Pecl
     sed -ie 's/-n//g' `which pecl` && \
     pecl install uploadprogress && \
+    pecl install imagick && \
+    echo 'extension=imagick.so' > /etc/php/conf.d/imagick.ini && \
     echo 'extension=uploadprogress.so' > /etc/php/conf.d/uploadprogress.ini && \
 
     # Purge dev APK packages

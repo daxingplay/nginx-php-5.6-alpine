@@ -102,7 +102,7 @@ RUN export TWIG_VER="1.24.0" && \
     echo 'extension=twig.so' > /etc/php/conf.d/twig.ini && \
 
     # Install PHP extensions through Pecl
-    sed -ie 's/-n//g' `which pecl` && \
+    sed -ie 's/-n//g' /usr/bin/pecl && \
     pecl install uploadprogress && \
     pecl install imagick && \
     echo 'extension=imagick.so' > /etc/php/conf.d/imagick.ini && \

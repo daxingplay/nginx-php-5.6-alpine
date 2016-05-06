@@ -111,7 +111,7 @@ RUN export PHP_ACTIONS_VER="develop" && \
 
     # Install PHP extensions through Pecl
     sed -ie 's/-n//g' /usr/bin/pecl && \
-    pecl install uploadprogress && \
+    echo '\n' | pecl install uploadprogress && \
     pecl install imagick && \
     echo 'extension=imagick.so' > /etc/php/conf.d/imagick.ini && \
     echo 'extension=uploadprogress.so' > /etc/php/conf.d/uploadprogress.ini && \
@@ -153,6 +153,7 @@ RUN export PHP_ACTIONS_VER="develop" && \
     composer install && rm -rf ./.git && \
     composer create-project wp-cli/wp-cli /usr/local/src/wp-cli --no-dev && \
     ln -sf /usr/local/src/wp-cli/bin/wp /usr/bin/wp && \
+    rm -rf /root/.composer/cache && \
 
     # Install Walter tool
     wget -qO- https://github.com/walter-cd/walter/releases/download/v${WALTER_VER}/walter_${WALTER_VER}_linux_amd64.tar.gz | tar xz -C /tmp/ && \

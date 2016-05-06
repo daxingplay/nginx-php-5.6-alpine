@@ -64,6 +64,7 @@ RUN export TWIG_VER="1.24.0" && \
         php-calendar \
         php-iconv \
         php-imap \
+        php-soap \
         php-memcache \
         php-redis@testing \
         php-xdebug@testing \

@@ -1,4 +1,4 @@
-FROM wodby/php-actions-alpine:v1.0.17
+FROM wodby/php-actions-alpine:v1.0.18
 MAINTAINER Wodby <hello@wodby.com>
 
 RUN export NGX_VER="1.9.3" && \
@@ -23,7 +23,7 @@ RUN export NGX_VER="1.9.3" && \
         pwgen \
         && \
 
-    apk add --update git sed nmap pwgen openssh rsync msmtp patch patchutils inotify-tools mariadb-client wget grep \
+    apk add --update git sed nmap pwgen openssh rsync msmtp patch patchutils mariadb-client wget grep \
     redis nano bash diffutils imagemagick php-cli php-fpm php-opcache php-xml php-ctype php-ftp php-gd php-json \
     php-posix php-curl php-dom php-pdo php-pdo_mysql php-sockets php-zlib php-mcrypt php-mysqli php-bz2 php-pear \
     php-phar php-openssl php-posix php-soap phpredis@testing php-zip php-calendar php-iconv php-imap tar gzip pcre perl curl nmap-ncat && \

@@ -25,7 +25,6 @@ RUN export PHP_ACTIONS_VER="master" && \
         patchutils \
         diffutils \
         msmtp \
-        inotify-tools \
         && \
 
     # Add PHP actions

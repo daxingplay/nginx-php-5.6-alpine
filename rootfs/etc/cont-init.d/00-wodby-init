@@ -1,8 +1,7 @@
 #!/usr/bin/with-contenv sh
 
-# Delete useless repo dir
-if [ -d $WODBY_HOME/repo ]; then
-    rm -rf $WODBY_HOME/repo
+if [ -z "$WODBY_APP_SUBSITE" ]; then
+    export WODBY_APP_SUBSITE="default"
 fi
 
 # Put env vars into /var/run/wodby/env
@@ -81,11 +80,3 @@ if [ ! -d $WODBY_HOME/.wodby/locks ]; then
     mkdir -p $WODBY_HOME/.wodby/locks
     chown -R $WODBY_USER:$WODBY_GROUP $WODBY_HOME/.wodby
 fi
-
-# Replace env vars in confd templates
-sed -i -e 's@${WODBY_NAMESPACE}@'"${WODBY_NAMESPACE}"'@' /etc/confd/conf.d/*.toml
-sed -i -e 's@${WODBY_USER}@'"${WODBY_USER}"'@' /etc/confd/conf.d/*.toml
-sed -i -e 's@${WODBY_GUID}@'"${WODBY_GUID}"'@' /etc/confd/conf.d/*.toml
-sed -i -e 's@${WODBY_CONF}@'"${WODBY_CONF}"'@' /etc/confd/conf.d/*.toml
-sed -i -e 's@${WODBY_APP_TYPE}@'"${WODBY_APP_TYPE}"'@' /etc/confd/conf.d/*.toml
-sed -i -e 's@${WODBY_APP_VERSION}@'"${WODBY_APP_VERSION}"'@' /etc/confd/conf.d/*.toml

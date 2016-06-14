@@ -65,6 +65,7 @@ RUN export PHP_ACTIONS_VER="master" && \
         php-mysqli \
         php-bz2 \
         php-pear \
+        php-exif \
         php-phar \
         php-openssl \
         php-posix \

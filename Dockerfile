@@ -44,41 +44,45 @@ RUN export PHP_ACTIONS_VER="master" && \
 
     # Install PHP extensions
     apk add --update \
-        php \
-        php-cli \
-        php-fpm \
-        php-opcache \
-        php-xml \
-        php-ctype \
-        php-ftp \
-        php-gd \
-        php-json \
-        php-posix \
-        php-curl \
-        php-dom \
-        php-pdo \
-        php-pdo_mysql \
-        php-sockets \
-        php-zlib \
-        php-mcrypt \
-        php-pcntl \
-        php-mysql \
-        php-mysqli \
-        php-bz2 \
-        php-pear \
-        php-exif \
-        php-phar \
-        php-openssl \
-        php-posix \
-        php-zip \
-        php-calendar \
-        php-iconv \
-        php-imap \
-        php-soap \
-        php-memcache \
-        php-redis@testing \
-        php-xdebug@testing \
+        php5 \
+        php5-cli \
+        php5-fpm \
+        php5-opcache \
+        php5-xml \
+        php5-ctype \
+        php5-ftp \
+        php5-gd \
+        php5-json \
+        php5-posix \
+        php5-curl \
+        php5-dom \
+        php5-pdo \
+        php5-pdo_mysql \
+        php5-sockets \
+        php5-zlib \
+        php5-mcrypt \
+        php5-pcntl \
+        php5-mysql \
+        php5-mysqli \
+        php5-bz2 \
+        php5-pear \
+        php5-exif \
+        php5-phar \
+        php5-openssl \
+        php5-posix \
+        php5-zip \
+        php5-calendar \
+        php5-iconv \
+        php5-imap \
+        php5-soap \
+        php5-memcache \
+        php5-redis@testing \
+        php5-xdebug@testing \
         && \
+
+    # Create symlinks PHP -> PHP5
+    ln -sf /etc/php5 /etc/php && \
+    ln -sf /usr/lib/php5 /usr/lib/php && \
 
     # Configure php.ini
     sed -i "s/^expose_php.*/expose_php = Off/" /etc/php/php.ini && \
@@ -87,7 +91,6 @@ RUN export PHP_ACTIONS_VER="master" && \
     sed -i "s/^max_execution_time.*/max_execution_time = 300/" /etc/php/php.ini && \
     sed -i "s/^post_max_size.*/post_max_size = 512M/" /etc/php/php.ini && \
     sed -i "s/^upload_max_filesize.*/upload_max_filesize = 512M/" /etc/php/php.ini && \
-    echo "extension_dir = \"/usr/lib/php/modules\"" | tee -a /etc/php/php.ini && \
     echo "error_log = \"/var/log/php/error.log\"" | tee -a /etc/php/php.ini && \
 
     # Configure php log dir
@@ -99,7 +102,7 @@ RUN export PHP_ACTIONS_VER="master" && \
 
     # Install Twig template engine
     apk add --update \
-        php-dev \
+        php5-dev \
         pcre-dev \
         build-base \
         autoconf \

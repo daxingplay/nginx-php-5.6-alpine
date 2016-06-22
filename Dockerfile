@@ -1,4 +1,4 @@
-FROM wodby/nginx-alpine:v1.0.4
+FROM wodby/nginx-alpine:alpine-3.4
 MAINTAINER Wodby <hello@wodby.com>
 
 RUN export PHP_ACTIONS_VER="master" && \
@@ -62,6 +62,7 @@ RUN export PHP_ACTIONS_VER="master" && \
         php-zlib \
         php-mcrypt \
         php-pcntl \
+        php-mysql \
         php-mysqli \
         php-bz2 \
         php-pear \

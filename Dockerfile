@@ -82,16 +82,15 @@ RUN export PHP_ACTIONS_VER="master" && \
 
     # Create symlinks PHP -> PHP5
     ln -sf /etc/php5 /etc/php && \
-    ln -sf /usr/lib/php5 /usr/lib/php && \
 
     # Configure php.ini
-    sed -i "s/^expose_php.*/expose_php = Off/" /etc/php/php.ini && \
-    sed -i "s/^;date.timezone.*/date.timezone = UTC/" /etc/php/php.ini && \
-    sed -i "s/^memory_limit.*/memory_limit = -1/" /etc/php/php.ini && \
-    sed -i "s/^max_execution_time.*/max_execution_time = 300/" /etc/php/php.ini && \
-    sed -i "s/^post_max_size.*/post_max_size = 512M/" /etc/php/php.ini && \
-    sed -i "s/^upload_max_filesize.*/upload_max_filesize = 512M/" /etc/php/php.ini && \
-    echo "error_log = \"/var/log/php/error.log\"" | tee -a /etc/php/php.ini && \
+    sed -i "s/^expose_php.*/expose_php = Off/" /etc/php5/php.ini && \
+    sed -i "s/^;date.timezone.*/date.timezone = UTC/" /etc/php5/php.ini && \
+    sed -i "s/^memory_limit.*/memory_limit = -1/" /etc/php5/php.ini && \
+    sed -i "s/^max_execution_time.*/max_execution_time = 300/" /etc/php5/php.ini && \
+    sed -i "s/^post_max_size.*/post_max_size = 512M/" /etc/php5/php.ini && \
+    sed -i "s/^upload_max_filesize.*/upload_max_filesize = 512M/" /etc/php5/php.ini && \
+    echo "error_log = \"/var/log/php/error.log\"" | tee -a /etc/php5/php.ini && \
 
     # Configure php log dir
     mkdir /var/log/php && \
@@ -112,15 +111,15 @@ RUN export PHP_ACTIONS_VER="master" && \
     wget -qO- https://github.com/twigphp/Twig/archive/v${TWIG_VER}.tar.gz | tar xz -C /tmp/ && \
     cd /tmp/Twig-${TWIG_VER}/ext/twig && \
     phpize && ./configure && make && make install && \
-    echo 'extension=twig.so' > /etc/php/conf.d/twig.ini && \
+    echo 'extension=twig.so' > /etc/php5/conf.d/twig.ini && \
 
     # Install PHP extensions through Pecl
     sed -ie 's/-n//g' /usr/bin/pecl && \
     echo '\n' | pecl install uploadprogress && \
     apk --update add imagemagick-dev && \
     echo '\n' | pecl install imagick && \
-    echo 'extension=imagick.so' > /etc/php/conf.d/imagick.ini && \
-    echo 'extension=uploadprogress.so' > /etc/php/conf.d/uploadprogress.ini && \
+    echo 'extension=imagick.so' > /etc/php5/conf.d/imagick.ini && \
+    echo 'extension=uploadprogress.so' > /etc/php5/conf.d/uploadprogress.ini && \
 
     # Purge dev APK packages
     apk del --purge \
@@ -131,7 +130,7 @@ RUN export PHP_ACTIONS_VER="master" && \
         && \
 
     # Cleanup after phpizing
-    cd / && rm -rf /usr/include/php /usr/lib/php/build /usr/lib/php/modules/*.a && \
+    rm -rf /usr/include/php /usr/lib/php/build /usr/lib/php5/modules/*.a && \
 
     # Remove Redis binaries and config
     rm -f \

@@ -24,7 +24,7 @@ RUN export PHP_ACTIONS_VER="master" && \
         patch \
         patchutils \
         diffutils \
-        msmtp \
+        postfix \
         && \
 
     # Add PHP actions
@@ -66,6 +66,7 @@ RUN export PHP_ACTIONS_VER="master" && \
         php-mysqli \
         php-bz2 \
         php-pear \
+        php-exif \
         php-phar \
         php-openssl \
         php-posix \
@@ -138,9 +139,6 @@ RUN export PHP_ACTIONS_VER="master" && \
         /usr/bin/redis-server \
         /etc/redis.conf \
         && \
-
-    # Replace sendmail by msmtp
-    ln -sf /usr/bin/msmtp /usr/sbin/sendmail && \
 
     # Define Git global config
     git config --global user.name "Administrator" && \

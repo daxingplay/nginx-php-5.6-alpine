@@ -6,6 +6,7 @@ RUN export PHP_ACTIONS_VER="master" && \
     export WALTER_VER="1.3.0" && \
     export GO_AWS_S3_VER="v1.0.0" && \
 
+    echo '@edge http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories && \
     echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
 
     # Install common packages
@@ -44,37 +45,38 @@ RUN export PHP_ACTIONS_VER="master" && \
 
     # Install PHP extensions
     apk add --update \
-        php5 \
-        php5-cli \
-        php5-fpm \
-        php5-opcache \
-        php5-xml \
-        php5-ctype \
-        php5-ftp \
-        php5-gd \
-        php5-json \
-        php5-posix \
-        php5-curl \
-        php5-dom \
-        php5-pdo \
-        php5-pdo_mysql \
-        php5-sockets \
-        php5-zlib \
-        php5-mcrypt \
-        php5-pcntl \
-        php5-mysql \
-        php5-mysqli \
-        php5-bz2 \
-        php5-pear \
-        php5-exif \
-        php5-phar \
-        php5-openssl \
-        php5-posix \
-        php5-zip \
-        php5-calendar \
-        php5-iconv \
-        php5-imap \
-        php5-soap \
+        php5@edge \
+        php5-common@edge \
+        php5-cli@edge \
+        php5-fpm@edge \
+        php5-opcache@edge \
+        php5-xml@edge \
+        php5-ctype@edge \
+        php5-ftp@edge \
+        php5-gd@edge \
+        php5-json@edge \
+        php5-posix@edge \
+        php5-curl@edge \
+        php5-dom@edge \
+        php5-pdo@edge \
+        php5-pdo_mysql@edge \
+        php5-sockets@edge \
+        php5-zlib@edge \
+        php5-mcrypt@edge \
+        php5-pcntl@edge \
+        php5-mysql@edge \
+        php5-mysqli@edge \
+        php5-bz2@edge \
+        php5-pear@edge \
+        php5-exif@edge \
+        php5-phar@edge \
+        php5-openssl@edge \
+        php5-posix@edge \
+        php5-zip@edge \
+        php5-calendar@edge \
+        php5-iconv@edge \
+        php5-imap@edge \
+        php5-soap@edge \
         php5-memcache \
         php5-redis@testing \
         php5-xdebug@testing \

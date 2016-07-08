@@ -82,9 +82,6 @@ RUN export PHP_ACTIONS_VER="master" && \
         php5-xdebug@testing \
         && \
 
-    # Create symlinks PHP -> PHP5
-    ln -sf /etc/php5 /etc/php && \
-
     # Configure php.ini
     sed -i \
         -e "s/^expose_php.*/expose_php = Off/" \

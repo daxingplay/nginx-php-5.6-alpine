@@ -1,0 +1,45 @@
+#!/bin/sh
+
+if [ -d /etc/php ]; then
+    php_dir="/etc/php"
+elif [ -d /etc/php5 ]; then
+    php_dir="/etc/php5"
+elif [ -d /etc/php7 ]; then
+    php_dir="/etc/php7"
+fi
+
+useCustomConfigs() {
+    if [ -d $WODBY_CONF/php ]; then
+        # If custom config is a symlink, remove it and run again.
+        if [ -L $WODBY_CONF/php ]; then
+            rm -rf $WODBY_CONF/php
+            useCustomConfigs
+        else
+            rm -rf $php_dir
+            ln -sf $WODBY_CONF/php $php_dir
+        fi
+    else
+        mv $php_dir $WODBY_CONF/php
+        chown $WODBY_USER:$WODBY_GROUP $WODBY_CONF/php
+        ln -sf $WODBY_CONF/php $php_dir
+    fi
+    return 0
+}
+
+useCustomConfigs
+
+# Comment outdated extension dir.
+sed -i "s/^extension_dir = \"\/usr\/lib\/php\/modules\"/; extension_dir = \"\/usr\/lib\/php\/modules\"/" /etc/php/php.ini
+
+# Store environments for PHP-FPM
+cat /var/run/wodby/env | xargs -I{} echo {} | awk 'BEGIN { FS = "=" }; { print "env["$1"] = "$2"" }' > /var/run/wodby/php-env
+chown $WODBY_USER:$WODBY_GROUP /var/run/wodby/php-env
+
+# Tune php config for dev environment
+if [ "${WODBY_ENVIRONMENT_TYPE}" = "dev" ]; then
+    sed -i "s/^error_reporting.*/error_reporting = E_ALL/" $WODBY_CONF/php/php.ini
+    sed -i "s/^display_errors.*/display_errors = On/" $WODBY_CONF/php/php.ini
+    sed -i "s/^display_startup_errors.*/display_startup_errors = On/" $WODBY_CONF/php/php.ini
+    sed -i "s/^track_errors.*/track_errors = On/" $WODBY_CONF/php/php.ini
+    sed -i "s/^mysqlnd.collect_memory_statistics.*/mysqlnd.collect_memory_statistics = On/" $WODBY_CONF/php/php.ini
+fi

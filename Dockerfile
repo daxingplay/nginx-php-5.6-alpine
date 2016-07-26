@@ -144,12 +144,19 @@ RUN export PHP_ACTIONS_VER="master" && \
     git config --global user.email "admin@wodby.com" && \
     git config --global push.default current && \
 
-    # Install composer, drush and wp-cli
+    # Install composer
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+
+    # Add composer parallel install plugin
+    composer global require "hirak/prestissimo:^0.3" && \
+
+    # Install drush
     git clone https://github.com/drush-ops/drush.git /usr/local/src/drush && \
     cd /usr/local/src/drush && \
     ln -sf /usr/local/src/drush/drush /usr/bin/drush && \
     composer install && rm -rf ./.git && \
+
+    # Install wp-cli
     composer create-project wp-cli/wp-cli /usr/local/src/wp-cli --no-dev && \
     ln -sf /usr/local/src/wp-cli/bin/wp /usr/bin/wp && \
     rm -rf /root/.composer/cache && \

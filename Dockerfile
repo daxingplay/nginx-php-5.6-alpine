@@ -8,6 +8,7 @@ RUN export PHP_ACTIONS_VER="master" && \
 
     echo '@edge http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories && \
     echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
+    echo '@community http://nl.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories && \
 
     # Install common packages
     apk add --update \
@@ -78,7 +79,7 @@ RUN export PHP_ACTIONS_VER="master" && \
         php5-soap@edge \
         php5-memcache \
         php5-redis@testing \
-        php5-xdebug@testing \
+        php5-xdebug@community \
         && \
 
     # Configure php.ini

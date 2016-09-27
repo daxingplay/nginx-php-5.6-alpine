@@ -82,6 +82,7 @@ RUN export PHP_ACTIONS_VER="master" && \
         php5-xdebug@community \
         php5-xsl \
         php5-ldap \
+        php5-bcmath \
         && \
 
     # Configure php.ini

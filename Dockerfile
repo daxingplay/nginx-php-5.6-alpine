@@ -6,22 +6,22 @@ RUN export PHP_ACTIONS_VER="master" && \
     export WALTER_VER="1.3.0" && \
     export GO_AWS_S3_VER="v1.0.0" && \
 
-    echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
-    echo '@community http://nl.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories && \
+    echo 'http://alpine.gliderlabs.com/alpine/v3.4/main' > /etc/apk/repositories && \
+    echo 'http://alpine.gliderlabs.com/alpine/v3.4/community' >> /etc/apk/repositories && \
+    echo 'http://alpine.gliderlabs.com/alpine/edge/testing' >> /etc/apk/repositories && \
+    echo 'http://alpine.gliderlabs.com/alpine/edge/community' >> /etc/apk/repositories && \
 
     # Install common packages
     apk add --update \
+        openssh \
         git \
         nano \
         grep \
         sed \
-        curl \
-        wget \
         tar \
         gzip \
         pcre \
         perl \
-        openssh \
         patch \
         patchutils \
         diffutils \
@@ -78,8 +78,8 @@ RUN export PHP_ACTIONS_VER="master" && \
         php5-imap \
         php5-soap \
         php5-memcache \
-        php5-redis@testing \
-        php5-xdebug@community \
+        php5-redis \
+        php5-xdebug \
         php5-xsl \
         php5-ldap \
         php5-bcmath \
@@ -128,37 +128,27 @@ RUN export PHP_ACTIONS_VER="master" && \
     echo 'extension=imagick.so' > /etc/php5/conf.d/imagick.ini && \
     echo 'extension=uploadprogress.so' > /etc/php5/conf.d/uploadprogress.ini && \
 
-    # Purge dev APK packages
-    apk del --purge \
-        *-dev \
-        build-base \
-        autoconf \
-        libtool \
-        && \
-
-    # Cleanup after phpizing
-    rm -rf /usr/include/php /usr/lib/php/build /usr/lib/php5/modules/*.a && \
-
-    # Remove Redis binaries and config
-    ls /usr/bin/redis-* | grep -v redis-cli | xargs rm  && \
-    rm -f /etc/redis.conf && \
-
     # Define Git global config
     git config --global user.name "Administrator" && \
     git config --global user.email "admin@wodby.com" && \
     git config --global push.default current && \
 
+    # Disable Xdebug
+    rm /etc/php5/conf.d/xdebug.ini && \
+
     # Install composer
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    curl -sS https://getcomposer.org/installer | php5 -- --install-dir=/usr/local/bin --filename=composer && \
 
     # Add composer parallel install plugin
     composer global require "hirak/prestissimo:^0.3" && \
 
     # Install drush
-    git clone https://github.com/drush-ops/drush.git /usr/local/src/drush && \
-    cd /usr/local/src/drush && \
-    ln -sf /usr/local/src/drush/drush /usr/bin/drush && \
-    composer install && rm -rf ./.git && \
+    php -r "readfile('https://s3.amazonaws.com/files.drush.org/drush.phar');" > /usr/local/bin/drush && \
+    chmod +x /usr/local/bin/drush && \
+
+    # Install Drupal Console
+    curl https://drupalconsole.com/installer -o /usr/local/bin/drupal && \
+    chmod +x /usr/local/bin/drupal && \
 
     # Install wp-cli
     composer create-project wp-cli/wp-cli /usr/local/src/wp-cli --no-dev && \
@@ -178,10 +168,25 @@ RUN export PHP_ACTIONS_VER="master" && \
     wget -qO- https://s3.amazonaws.com/wodby-releases/go-aws-s3/${GO_AWS_S3_VER}/go-aws-s3.tar.gz | tar xz -C /tmp/ && \
     cp /tmp/go-aws-s3 /opt/wodby/bin && \
 
-    # Fix permissions
-    chmod 755 /root && \
+    # Remove redis binaries and config
+    ls /usr/bin/redis-* | grep -v redis-cli | xargs rm  && \
+    rm -f /etc/redis.conf && \
 
-    # Final cleanup
-    rm -rf /var/cache/apk/* /tmp/* /usr/share/man
+    # Cleanup
+    apk del --purge \
+        *-dev \
+        build-base \
+        autoconf \
+        libtool \
+        && \
+
+    rm -rf \
+        /usr/include/php5 \
+        /usr/lib/php5/build \
+        /usr/lib/php5/modules/*.a \
+        /var/cache/apk/* \
+        /usr/share/man \
+        /tmp/* \
+        /root/.composer
 
 COPY rootfs /

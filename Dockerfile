@@ -128,7 +128,7 @@ RUN export PHP_ACTIONS_VER="master" && \
     rm /etc/php5/conf.d/xdebug.ini && \
 
     # Install composer
-    curl -sS https://getcomposer.org/installer | php5 -- --install-dir=/usr/local/bin --filename=composer && \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
 
     # Add composer parallel install plugin
     composer global require "hirak/prestissimo:^0.3" && \

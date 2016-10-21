@@ -16,10 +16,6 @@ RUN export PHP_ACTIONS_VER="master" && \
         openssh \
         git \
         nano \
-        grep \
-        sed \
-        tar \
-        gzip \
         pcre \
         perl \
         patch \
@@ -114,11 +110,6 @@ RUN export PHP_ACTIONS_VER="master" && \
         autoconf \
         libtool \
         && \
-
-    wget -qO- https://github.com/twigphp/Twig/archive/v${TWIG_VER}.tar.gz | tar xz -C /tmp/ && \
-    cd /tmp/Twig-${TWIG_VER}/ext/twig && \
-    phpize && ./configure && make && make install && \
-    echo 'extension=twig.so' > /etc/php5/conf.d/twig.ini && \
 
     # Install PHP extensions through Pecl
     sed -ie 's/-n//g' /usr/bin/pecl && \

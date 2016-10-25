@@ -24,13 +24,12 @@ RUN export PHP_ACTIONS_VER="master" && \
 
     # Add PHP actions
 RUN cd /tmp && \
-    git clone https://github.com/Wodby/php-actions-alpine.git && \
+    git clone --depth=1 -b $PHP_ACTIONS_VER https://github.com/Wodby/php-actions-alpine.git && \
     cd php-actions-alpine && \
-    git checkout $PHP_ACTIONS_VER && \
-    rsync -av rootfs/ / && \
+    rsync -av rootfs/ /
 
     # Install specific packages
-    apk add --update \
+RUN apk add --update \
         mariadb-client \
         imap \
         redis \

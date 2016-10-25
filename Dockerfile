@@ -2,7 +2,6 @@ FROM wodby/nginx-alpine
 MAINTAINER Wodby <hello@wodby.com>
 
 RUN export TWIG_VER="1.24.0" && \
-    export WALTER_VER="1.3.0" && \
     export GO_AWS_S3_VER="v1.0.0" && \
 
     echo 'http://alpine.gliderlabs.com/alpine/v3.4/main' > /etc/apk/repositories && \
@@ -142,7 +141,7 @@ RUN composer create-project wp-cli/wp-cli /usr/local/src/wp-cli --no-dev && \
     rm -rf /root/.composer/cache
 
     # Install Walter tool
-RUN wget -qO- https://github.com/walter-cd/walter/releases/download/v${WALTER_VER}/walter_${WALTER_VER}_linux_amd64.tar.gz | tar xz -C /tmp/ && \
+RUN wget -qO- https://github.com/walter-cd/walter/releases/download/v1.3.0/walter_1.3.0_linux_amd64.tar.gz | tar xz -C /tmp/ && \
     mkdir /opt/wodby/bin && \
     cp /tmp/walter_linux_amd64/walter /opt/wodby/bin
 

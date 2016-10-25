@@ -126,32 +126,32 @@ RUN sed -ie 's/-n//g' /usr/bin/pecl && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
     # Add composer parallel install plugin
-RUN composer global require "hirak/prestissimo:^0.3" && \
+#RUN composer global require "hirak/prestissimo:^0.3" && \
 
     # Install drush
-    php -r "readfile('https://s3.amazonaws.com/files.drush.org/drush.phar');" > /usr/local/bin/drush && \
-    chmod +x /usr/local/bin/drush && \
+RUN php -r "readfile('https://s3.amazonaws.com/files.drush.org/drush.phar');" > /usr/local/bin/drush && \
+    chmod +x /usr/local/bin/drush
 
     # Install Drupal Console
-    curl https://drupalconsole.com/installer -o /usr/local/bin/drupal && \
-    chmod +x /usr/local/bin/drupal && \
+RUN curl https://drupalconsole.com/installer -o /usr/local/bin/drupal && \
+    chmod +x /usr/local/bin/drupal
 
     # Install wp-cli
-    composer create-project wp-cli/wp-cli /usr/local/src/wp-cli --no-dev && \
+RUN composer create-project wp-cli/wp-cli /usr/local/src/wp-cli --no-dev && \
     ln -sf /usr/local/src/wp-cli/bin/wp /usr/bin/wp && \
-    rm -rf /root/.composer/cache && \
+    rm -rf /root/.composer/cache
 
     # Install Walter tool
-    wget -qO- https://github.com/walter-cd/walter/releases/download/v${WALTER_VER}/walter_${WALTER_VER}_linux_amd64.tar.gz | tar xz -C /tmp/ && \
+RUN wget -qO- https://github.com/walter-cd/walter/releases/download/v${WALTER_VER}/walter_${WALTER_VER}_linux_amd64.tar.gz | tar xz -C /tmp/ && \
     mkdir /opt/wodby/bin && \
-    cp /tmp/walter_linux_amd64/walter /opt/wodby/bin && \
+    cp /tmp/walter_linux_amd64/walter /opt/wodby/bin
 
     # Install Wellington tool
-    wget -qO- https://s3.amazonaws.com/wodby-releases/wt/1.0.2/wt_v1.0.2_linux_amd64.tar.gz | tar xz -C /tmp/ && \
-    cp /tmp/wt /opt/wodby/bin && \
+RUN wget -qO- https://s3.amazonaws.com/wodby-releases/wt/1.0.2/wt_v1.0.2_linux_amd64.tar.gz | tar xz -C /tmp/ && \
+    cp /tmp/wt /opt/wodby/bin
 
     # Install go-aws-s3
-    wget -qO- https://s3.amazonaws.com/wodby-releases/go-aws-s3/${GO_AWS_S3_VER}/go-aws-s3.tar.gz | tar xz -C /tmp/ && \
+RUN wget -qO- https://s3.amazonaws.com/wodby-releases/go-aws-s3/${GO_AWS_S3_VER}/go-aws-s3.tar.gz | tar xz -C /tmp/ && \
     cp /tmp/go-aws-s3 /opt/wodby/bin
 
     # Remove redis binaries and config

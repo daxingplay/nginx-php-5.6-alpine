@@ -24,6 +24,7 @@ RUN export PHP_ACTIONS_VER="master" && \
 
     # Add PHP actions
 RUN cd /tmp && \
+    echo $PHP_ACTIONS_VER && \
     git clone --depth=1 -b $PHP_ACTIONS_VER https://github.com/Wodby/php-actions-alpine.git && \
     cd php-actions-alpine && \
     rsync -av rootfs/ /

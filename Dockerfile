@@ -108,11 +108,10 @@ RUN export PHP_ACTIONS_VER="master" && \
         pcre-dev \
         build-base \
         autoconf \
-        libtool \
-        && \
+        libtool
 
     # Install PHP extensions through Pecl
-    sed -ie 's/-n//g' /usr/bin/pecl && \
+RUN sed -ie 's/-n//g' /usr/bin/pecl && \
     echo '\n' | pecl install uploadprogress && \
     apk --update add imagemagick-dev && \
     echo '\n' | pecl install imagick && \
@@ -125,10 +124,10 @@ RUN export PHP_ACTIONS_VER="master" && \
     git config --global push.default current && \
 
     # Disable Xdebug
-    rm /etc/php5/conf.d/xdebug.ini && \
+    rm /etc/php5/conf.d/xdebug.ini
 
     # Install composer
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
 
     # Add composer parallel install plugin
     composer global require "hirak/prestissimo:^0.3" && \

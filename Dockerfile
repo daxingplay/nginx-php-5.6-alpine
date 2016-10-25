@@ -19,7 +19,7 @@ RUN echo 'http://alpine.gliderlabs.com/alpine/v3.4/main' > /etc/apk/repositories
 
     # Add PHP actions
 RUN cd /tmp && \
-    git clone --depth=1 -b master https://github.com/Wodby/php-actions-alpine.git && \
+    git clone --depth=1 -b master https://GITHUB_ACCESS_TOKEN@github.com/Wodby/php-actions-alpine.git && \
     cd php-actions-alpine && \
     rsync -av rootfs/ /
 
@@ -121,8 +121,10 @@ RUN sed -ie 's/-n//g' /usr/bin/pecl && \
     # Install composer
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+RUN composer config -g github-oauth.github.com GITHUB_ACCESS_TOKEN
+
     # Add composer parallel install plugin
-#RUN composer global require "hirak/prestissimo:^0.3" && \
+RUN composer global require "hirak/prestissimo:^0.3"
 
     # Install drush
 RUN php -r "readfile('https://s3.amazonaws.com/files.drush.org/drush.phar');" > /usr/local/bin/drush && \

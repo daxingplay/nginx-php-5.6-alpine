@@ -20,11 +20,10 @@ RUN export PHP_ACTIONS_VER="master" && \
         perl \
         patch \
         patchutils \
-        diffutils \
-        && \
+        diffutils
 
     # Add PHP actions
-    cd /tmp && \
+RUN cd /tmp && \
     git clone https://github.com/Wodby/php-actions-alpine.git && \
     cd php-actions-alpine && \
     git checkout $PHP_ACTIONS_VER && \
@@ -78,11 +77,10 @@ RUN export PHP_ACTIONS_VER="master" && \
         php5-xdebug \
         php5-xsl \
         php5-ldap \
-        php5-bcmath \
-        && \
+        php5-bcmath
 
     # Configure php.ini
-    sed -i \
+RUN sed -i \
         -e "s/^expose_php.*/expose_php = Off/" \
         -e "s/^;date.timezone.*/date.timezone = UTC/" \
         -e "s/^memory_limit.*/memory_limit = -1/" \
@@ -108,10 +106,10 @@ RUN export PHP_ACTIONS_VER="master" && \
         pcre-dev \
         build-base \
         autoconf \
-        libtool && \
+        libtool
 
     # Install PHP extensions through Pecl
-    sed -ie 's/-n//g' /usr/bin/pecl && \
+RUN sed -ie 's/-n//g' /usr/bin/pecl && \
     echo '\n' | pecl install uploadprogress && \
     apk --update add imagemagick-dev && \
     echo '\n' | pecl install imagick && \
@@ -127,10 +125,10 @@ RUN export PHP_ACTIONS_VER="master" && \
     rm /etc/php5/conf.d/xdebug.ini && \
 
     # Install composer
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
     # Add composer parallel install plugin
-    composer global require "hirak/prestissimo:^0.3" && \
+RUN composer global require "hirak/prestissimo:^0.3" && \
 
     # Install drush
     php -r "readfile('https://s3.amazonaws.com/files.drush.org/drush.phar');" > /usr/local/bin/drush && \
@@ -156,21 +154,20 @@ RUN export PHP_ACTIONS_VER="master" && \
 
     # Install go-aws-s3
     wget -qO- https://s3.amazonaws.com/wodby-releases/go-aws-s3/${GO_AWS_S3_VER}/go-aws-s3.tar.gz | tar xz -C /tmp/ && \
-    cp /tmp/go-aws-s3 /opt/wodby/bin && \
+    cp /tmp/go-aws-s3 /opt/wodby/bin
 
     # Remove redis binaries and config
-    ls /usr/bin/redis-* | grep -v redis-cli | xargs rm  && \
-    rm -f /etc/redis.conf && \
+RUN ls /usr/bin/redis-* | grep -v redis-cli | xargs rm  && \
+    rm -f /etc/redis.conf
 
     # Cleanup
-    apk del --purge \
+RUN  apk del --purge \
         *-dev \
         build-base \
         autoconf \
-        libtool \
-        && \
+        libtool
 
-    rm -rf \
+RUN rm -rf \
         /usr/include/php5 \
         /usr/lib/php5/build \
         /usr/lib/php5/modules/*.a \

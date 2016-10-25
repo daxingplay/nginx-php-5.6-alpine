@@ -1,10 +1,7 @@
 FROM wodby/nginx-alpine
 MAINTAINER Wodby <hello@wodby.com>
 
-RUN export TWIG_VER="1.24.0" && \
-    export GO_AWS_S3_VER="v1.0.0" && \
-
-    echo 'http://alpine.gliderlabs.com/alpine/v3.4/main' > /etc/apk/repositories && \
+RUN echo 'http://alpine.gliderlabs.com/alpine/v3.4/main' > /etc/apk/repositories && \
     echo 'http://alpine.gliderlabs.com/alpine/v3.4/community' >> /etc/apk/repositories && \
     echo 'http://alpine.gliderlabs.com/alpine/edge/testing' >> /etc/apk/repositories && \
     echo 'http://alpine.gliderlabs.com/alpine/edge/community' >> /etc/apk/repositories && \
@@ -150,7 +147,7 @@ RUN wget -qO- https://s3.amazonaws.com/wodby-releases/wt/1.0.2/wt_v1.0.2_linux_a
     cp /tmp/wt /opt/wodby/bin
 
     # Install go-aws-s3
-RUN wget -qO- https://s3.amazonaws.com/wodby-releases/go-aws-s3/${GO_AWS_S3_VER}/go-aws-s3.tar.gz | tar xz -C /tmp/ && \
+RUN wget -qO- https://s3.amazonaws.com/wodby-releases/go-aws-s3/v1.0.0/go-aws-s3.tar.gz | tar xz -C /tmp/ && \
     cp /tmp/go-aws-s3 /opt/wodby/bin
 
     # Remove redis binaries and config

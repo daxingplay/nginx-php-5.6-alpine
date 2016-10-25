@@ -96,7 +96,7 @@ RUN export PHP_ACTIONS_VER="master" && \
     echo "error_log = \"/var/log/php/error.log\"" | tee -a /etc/php5/php.ini && \
 
     # Configure php log dir
-    mkdir /var/log/php && \
+    mkdir -p /var/log/php && \
     touch /var/log/php/error.log && \
     touch /var/log/php/fpm-error.log && \
     touch /var/log/php/fpm-slow.log && \
@@ -108,10 +108,10 @@ RUN export PHP_ACTIONS_VER="master" && \
         pcre-dev \
         build-base \
         autoconf \
-        libtool
+        libtool && \
 
     # Install PHP extensions through Pecl
-RUN sed -ie 's/-n//g' /usr/bin/pecl && \
+    sed -ie 's/-n//g' /usr/bin/pecl && \
     echo '\n' | pecl install uploadprogress && \
     apk --update add imagemagick-dev && \
     echo '\n' | pecl install imagick && \
@@ -124,10 +124,10 @@ RUN sed -ie 's/-n//g' /usr/bin/pecl && \
     git config --global push.default current && \
 
     # Disable Xdebug
-    rm /etc/php5/conf.d/xdebug.ini
+    rm /etc/php5/conf.d/xdebug.ini && \
 
     # Install composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
 
     # Add composer parallel install plugin
     composer global require "hirak/prestissimo:^0.3" && \

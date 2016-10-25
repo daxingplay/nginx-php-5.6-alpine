@@ -1,8 +1,7 @@
 FROM wodby/nginx-alpine
 MAINTAINER Wodby <hello@wodby.com>
 
-RUN export PHP_ACTIONS_VER="master" && \
-    export TWIG_VER="1.24.0" && \
+RUN export TWIG_VER="1.24.0" && \
     export WALTER_VER="1.3.0" && \
     export GO_AWS_S3_VER="v1.0.0" && \
 
@@ -23,10 +22,8 @@ RUN export PHP_ACTIONS_VER="master" && \
         diffutils
 
     # Add PHP actions
-RUN echo $PHP_ACTIONS_VER
-
 RUN cd /tmp && \
-    git clone --depth=1 -b $PHP_ACTIONS_VER https://github.com/Wodby/php-actions-alpine.git && \
+    git clone --depth=1 -b master https://github.com/Wodby/php-actions-alpine.git && \
     cd php-actions-alpine && \
     rsync -av rootfs/ /
 

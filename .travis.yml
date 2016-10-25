@@ -12,7 +12,6 @@ env:
     - BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
 
 install:
-  - sed -i 's/GITHUB_ACCESS_TOKEN/'"$GITHUB_ACCESS_TOKEN"'/' ./Dockerfile
   - docker build -t $REPO:$COMMIT ./
 
 script:

@@ -18,10 +18,10 @@ RUN echo 'http://alpine.gliderlabs.com/alpine/v3.4/main' > /etc/apk/repositories
         diffutils
 
     # Add PHP actions
-RUN cd /tmp && \
-    git clone --depth=1 -b master https://GITHUB_ACCESS_TOKEN@github.com/Wodby/php-actions-alpine.git && \
-    cd php-actions-alpine && \
-    rsync -av rootfs/ /
+#RUN cd /tmp && \
+#    git clone --depth=1 -b master https://GITHUB_ACCESS_TOKEN@github.com/Wodby/php-actions-alpine.git && \
+#    cd php-actions-alpine && \
+#    rsync -av rootfs/ /
 
     # Install specific packages
 RUN apk add --update \
@@ -120,8 +120,6 @@ RUN sed -ie 's/-n//g' /usr/bin/pecl && \
 
     # Install composer
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-RUN composer config -g github-oauth.github.com GITHUB_ACCESS_TOKEN
 
     # Add composer parallel install plugin
 RUN composer global require "hirak/prestissimo:^0.3"

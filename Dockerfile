@@ -1,10 +1,9 @@
 FROM wodby/nginx-alpine
 MAINTAINER Wodby <hello@wodby.com>
 
-RUN echo 'http://alpine.gliderlabs.com/alpine/v3.4/main' > /etc/apk/repositories && \
-    echo 'http://alpine.gliderlabs.com/alpine/v3.4/community' >> /etc/apk/repositories && \
-    echo 'http://alpine.gliderlabs.com/alpine/edge/testing' >> /etc/apk/repositories && \
-    echo 'http://alpine.gliderlabs.com/alpine/edge/community' >> /etc/apk/repositories && \
+RUN echo 'http://nl.alpinelinux.org/alpine/edge/main' > /etc/apk/repositories && \
+    echo 'http://nl.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories && \
+    echo 'http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
 
     # Install common packages
     apk add --update \
@@ -18,10 +17,10 @@ RUN echo 'http://alpine.gliderlabs.com/alpine/v3.4/main' > /etc/apk/repositories
         diffutils
 
     # Add PHP actions
-#RUN cd /tmp && \
-#    git clone --depth=1 -b master https://GITHUB_ACCESS_TOKEN@github.com/Wodby/php-actions-alpine.git && \
-#    cd php-actions-alpine && \
-#    rsync -av rootfs/ /
+RUN cd /tmp && \
+    git clone --depth=1 -b master https://GITHUB_ACCESS_TOKEN@github.com/Wodby/php-actions-alpine.git && \
+    cd php-actions-alpine && \
+    rsync -av rootfs/ /
 
     # Install specific packages
 RUN apk add --update \

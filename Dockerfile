@@ -18,7 +18,7 @@ RUN echo 'http://nl.alpinelinux.org/alpine/edge/main' > /etc/apk/repositories &&
 
     # Add PHP actions
 RUN cd /tmp && \
-    git clone --depth=1 -b master https://GITHUB_ACCESS_TOKEN@github.com/Wodby/php-actions-alpine.git && \
+    git clone --depth=1 -b master https://github.com/Wodby/php-actions-alpine.git && \
     cd php-actions-alpine && \
     rsync -av rootfs/ /
 

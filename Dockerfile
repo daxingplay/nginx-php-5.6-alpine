@@ -44,6 +44,7 @@ RUN export PHP_ACTIONS_VER="master" && \
         php5-cli \
         php5-fpm \
         php5-opcache \
+        php5-apcu \
         php5-xml \
         php5-ctype \
         php5-ftp \

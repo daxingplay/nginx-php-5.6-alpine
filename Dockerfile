@@ -1,7 +1,7 @@
 FROM wodby/nginx-alpine
 MAINTAINER Wodby <hello@wodby.com>
 
-RUN export PHP_ACTIONS_VER="master" && \
+RUN export PHP_ACTIONS_VER="665c2f630d093b0eca5714d938b30984cbb7ea84" && \
     export TWIG_VER="1.24.0" && \
     export WALTER_VER="1.3.0" && \
     export GO_AWS_S3_VER="v1.0.0" && \
@@ -44,15 +44,15 @@ RUN export PHP_ACTIONS_VER="master" && \
         php5-cli \
         php5-fpm \
         php5-opcache \
-        php5-apcu \
+        php5-dom \
         php5-xml \
+        php5-xmlreader \
         php5-ctype \
         php5-ftp \
         php5-gd \
         php5-json \
         php5-posix \
         php5-curl \
-        php5-dom \
         php5-pdo \
         php5-pdo_mysql \
         php5-sockets \
@@ -79,6 +79,7 @@ RUN export PHP_ACTIONS_VER="master" && \
         php5-xsl \
         php5-ldap \
         php5-bcmath \
+        php5-memcached \
         && \
 
     # Configure php.ini

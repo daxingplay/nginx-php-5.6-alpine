@@ -94,14 +94,7 @@ RUN export PHP_ACTIONS_VER="master" && \
         -e "s@^;sendmail_path.*@sendmail_path = /usr/sbin/sendmail -t -i -S opensmtpd:25@" \
         /etc/php5/php.ini && \
 
-    echo "error_log = \"/var/log/php/error.log\"" | tee -a /etc/php5/php.ini && \
-
-    # Configure php log dir
-    mkdir /var/log/php && \
-    touch /var/log/php/error.log && \
-    touch /var/log/php/fpm-error.log && \
-    touch /var/log/php/fpm-slow.log && \
-    chown -R wodby:wodby /var/log/php && \
+    echo "error_log = \"/proc/self/fd/2\"" | tee -a /etc/php5/php.ini && \
 
     # Install Twig template engine
     apk add --update \
